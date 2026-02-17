@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IELTS Reading exam</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="bg"></div>
+
+    <main class="wrap">
+      <header class="top">
+        <div>
+          <h1>IELTS Reading Mock Test</h1>
+          <p class="sub">30 minutes • 10 questions • Auto-submit at 00:00</p>
+        </div>
+
+        <div class="timerBox" aria-live="polite">
+          <div class="timerLabel">Time Left</div>
+          <div id="timer" class="timer">30:00</div>
+
+          <div class="controls">
+            <button id="startBtn" class="btn primary">Start</button>
+            <button id="checkBtn" class="btn" disabled>Check Answers</button>
+            <button id="resetBtn" class="btn ghost">Reset</button>
+          </div>
+
+          <div id="status" class="status">Not started.</div>
+        </div>
+      </header>
+
+      <section class="grid">
+        <!-- Passage -->
+        <article class="card passage">
+          <h2>Reading Passage</h2>
+          <p class="muted">Read the passage and answer questions 1–10.</p>
+
+          <div class="passageText">
+            <h3>The Secret Language of Plants (Short)</h3>
+            <p>
+              For a long time, scientists believed plants were passive organisms.
+              However, research now suggests many plants can communicate by releasing
+              airborne chemical signals. When attacked by insects, some trees emit
+              volatile organic compounds (VOCs) that nearby plants detect.
+            </p>
+            <p>
+              After receiving these signals, neighboring plants may increase their
+              chemical defenses, making leaves less attractive or even toxic to
+              herbivores. This idea was controversial for decades, but laboratory and
+              field studies have repeatedly supported it.
+            </p>
+            <p>
+              Plant signaling does not mean plants “think” like humans. Instead, it is
+              a biological response system shaped by evolution. Researchers continue to
+              investigate how far these signals travel and how different species respond.
+            </p>
+          </div>
+        </article>
+
+        <!-- Questions -->
+        <article class="card questions">
+          <div class="qHead">
+            <h2>Questions</h2>
+            <div id="scoreBox" class="scoreBox hidden">
+              <span class="scoreLabel">Score</span>
+              <span id="score" class="score">0/10</span>
+            </div>
+          </div>
+
+          <form id="testForm" class="form">
+            <!-- Q1-5: MCQ -->
+            <section class="qBlock">
+              <h3>Multiple Choice (1–5)</h3>
+
+              <div class="q" data-q="1">
+                <div class="qTitle">1) What do plants release to communicate danger?</div>
+                <label class="opt"><input type="radio" name="q1" value="A" /> A) Sound waves</label>
+                <label class="opt"><input type="radio" name="q1" value="B" /> B) VOCs (airborne chemicals)</label>
+                <label class="opt"><input type="radio" name="q1" value="C" /> C) Light signals</label>
+                <label class="opt"><input type="radio" name="q1" value="D" /> D) Electrical cables</label>
+                <div class="feedback" id="fb1"></div>
+              </div>
+
+              <div class="q" data-q="2">
+                <div class="qTitle">2) Why do neighboring plants change after receiving signals?</div>
+                <label class="opt"><input type="radio" name="q2" value="A" /> A) To grow taller</label>
+                <label class="opt"><input type="radio" name="q2" value="B" /> B) To attract more insects</label>
+                <label class="opt"><input type="radio" name="q2" value="C" /> C) To increase defense chemicals</label>
+                <label class="opt"><input type="radio" name="q2" value="D" /> D) To produce fruit immediately</label>
+                <div class="feedback" id="fb2"></div>
+              </div>
+
+              <div class="q" data-q="3">
+                <div class="qTitle">3) The plant response system is mainly shaped by:</div>
+                <label class="opt"><input type="radio" name="q3" value="A" /> A) Evolution</label>
+                <label class="opt"><input type="radio" name="q3" value="B" /> B) Human training</label>
+                <label class="opt"><input type="radio" name="q3" value="C" /> C) Luck</label>
+                <label class="opt"><input type="radio" name="q3" value="D" /> D) Weather forecasts</label>
+                <div class="feedback" id="fb3"></div>
+              </div>
+
+              <div class="q" data-q="4">
+                <div class="qTitle">4) The idea of plant communication was controversial because:</div>
+                <label class="opt"><input type="radio" name="q4" value="A" /> A) Plants were thought to be passive</label>
+                <label class="opt"><input type="radio" name="q4" value="B" /> B) Plants can talk like humans</label>
+                <label class="opt"><input type="radio" name="q4" value="C" /> C) VOCs are illegal</label>
+                <label class="opt"><input type="radio" name="q4" value="D" /> D) Researchers refused to test it</label>
+                <div class="feedback" id="fb4"></div>
+              </div>
+
+              <div class="q" data-q="5">
+                <div class="qTitle">5) Researchers are still investigating:</div>
+                <label class="opt"><input type="radio" name="q5" value="A" /> A) How far signals travel</label>
+                <label class="opt"><input type="radio" name="q5" value="B" /> B) If plants can drive cars</label>
+                <label class="opt"><input type="radio" name="q5" value="C" /> C) Whether trees need Wi-Fi</label>
+                <label class="opt"><input type="radio" name="q5" value="D" /> D) If plants can speak English</label>
+                <div class="feedback" id="fb5"></div>
+              </div>
+            </section>
+
+            <!-- Q6-10: True/False/Not Given -->
+            <section class="qBlock">
+              <h3>True / False / Not Given (6–10)</h3>
+              <p class="muted">Choose <b>T</b>, <b>F</b>, or <b>NG</b>.</p>
+
+              <div class="q" data-q="6">
+                <div class="qTitle">6) Plants communicate using airborne chemical signals.</div>
+                <div class="tf">
+                  <label><input type="radio" name="q6" value="T" /> T</label>
+                  <label><input type="radio" name="q6" value="F" /> F</label>
+                  <label><input type="radio" name="q6" value="NG" /> NG</label>
+                </div>
+                <div class="feedback" id="fb6"></div>
+              </div>
+
+              <div class="q" data-q="7">
+                <div class="qTitle">7) All plants respond in exactly the same way to VOCs.</div>
+                <div class="tf">
+                  <label><input type="radio" name="q7" value="T" /> T</label>
+                  <label><input type="radio" name="q7" value="F" /> F</label>
+                  <label><input type="radio" name="q7" value="NG" /> NG</label>
+                </div>
+                <div class="feedback" id="fb7"></div>
+              </div>
+
+              <div class="q" data-q="8">
+                <div class="qTitle">8) Plant signaling means plants think like humans.</div>
+                <div class="tf">
+                  <label><input type="radio" name="q8" value="T" /> T</label>
+                  <label><input type="radio" name="q8" value="F" /> F</label>
+                  <label><input type="radio" name="q8" value="NG" /> NG</label>
+                </div>
+                <div class="feedback" id="fb8"></div>
+              </div>
+
+              <div class="q" data-q="9">
+                <div class="qTitle">9) Field studies have supported the existence of plant signaling.</div>
+                <div class="tf">
+                  <label><input type="radio" name="q9" value="T" /> T</label>
+                  <label><input type="radio" name="q9" value="F" /> F</label>
+                  <label><input type="radio" name="q9" value="NG" /> NG</label>
+                </div>
+                <div class="feedback" id="fb9"></div>
+              </div>
+
+              <div class="q" data-q="10">
+                <div class="qTitle">10) The passage states exactly how many kilometers VOCs can travel.</div>
+                <div class="tf">
+                  <label><input type="radio" name="q10" value="T" /> T</label>
+                  <label><input type="radio" name="q10" value="F" /> F</label>
+                  <label><input type="radio" name="q10" value="NG" /> NG</label>
+                </div>
+                <div class="feedback" id="fb10"></div>
+              </div>
+            </section>
+
+            <div class="bottomBar">
+              <button type="button" id="checkBtnBottom" class="btn primary" disabled>
+                Check Answers
+              </button>
+              <span class="muted small">Tip: start first. If time ends, it auto-checks.</span>
+            </div>
+          </form>
+        </article>
+      </section>
+
+      <footer class="foot">
+        <span class="muted small">Built with HTML/CSS/JS. No backend. No excuses.</span>
+      </footer>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
