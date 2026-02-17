@@ -15,6 +15,10 @@ const ANSWERS = {
   q10: "NG",
 };
 
+const THEME_KEY = "ielts-theme";
+const RESULT_KEY = "ielts-last-result";
+const RESULT_PAGE = "results.html";
+
 let secondsLeft = TOTAL_SECONDS;
 let timerId = null;
 let started = false;
@@ -30,10 +34,59 @@ const statusEl = document.getElementById("status");
 const formEl = document.getElementById("testForm");
 const scoreBox = document.getElementById("scoreBox");
 const scoreEl = document.getElementById("score");
+const themeToggleBtn = document.getElementById("themeToggle");
 
 // === Helpers ===
 function pad(n) {
   return String(n).padStart(2, "0");
+}
+
+function getStoredTheme() {
+  try {
+    return window.localStorage.getItem(THEME_KEY);
+  } catch {
+    return null;
+  }
+}
+
+function storeTheme(theme) {
+  try {
+    window.localStorage.setItem(THEME_KEY, theme);
+  } catch {
+    // Ignore write failures (private mode, blocked storage, etc).
+  }
+}
+
+function applyTheme(theme) {
+  const isLight = theme === "light";
+  document.body.classList.toggle("light", isLight);
+
+  if (!themeToggleBtn) return;
+  themeToggleBtn.setAttribute(
+    "aria-label",
+    isLight ? "Switch to dark mode" : "Switch to light mode"
+  );
+  themeToggleBtn.setAttribute("aria-pressed", String(isLight));
+}
+
+function initTheme() {
+  const savedTheme = getStoredTheme();
+  if (savedTheme === "light" || savedTheme === "dark") {
+    applyTheme(savedTheme);
+    return;
+  }
+
+  const prefersLight =
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: light)").matches;
+
+  applyTheme(prefersLight ? "light" : "dark");
+}
+
+function toggleTheme() {
+  const nextTheme = document.body.classList.contains("light") ? "dark" : "light";
+  applyTheme(nextTheme);
+  storeTheme(nextTheme);
 }
 
 function renderTime() {
@@ -72,10 +125,10 @@ function markQuestion(qNum, ok, correctVal) {
   qEl.classList.remove("correct", "wrong");
   if (ok) {
     qEl.classList.add("correct");
-    fb.textContent = `✅ Correct`;
+    fb.textContent = "Correct";
   } else {
     qEl.classList.add("wrong");
-    fb.textContent = `❌ Wrong. Correct answer: ${correctVal}`;
+    fb.textContent = `Wrong. Correct answer: ${correctVal}`;
   }
 }
 
@@ -88,6 +141,40 @@ function clearMarks() {
   }
   scoreBox.classList.add("hidden");
   scoreEl.textContent = "0/10";
+}
+
+function saveResultAndRedirect(score, autoSubmitted) {
+  const total = Object.keys(ANSWERS).length;
+  const percent = Math.round((score / total) * 100);
+  const secondsSpent = TOTAL_SECONDS - secondsLeft;
+
+  const result = {
+    score,
+    total,
+    wrong: total - score,
+    percent,
+    secondsSpent,
+    autoSubmitted,
+    finishedAt: new Date().toISOString(),
+  };
+
+  try {
+    window.localStorage.setItem(RESULT_KEY, JSON.stringify(result));
+  } catch {
+    // Ignore write failures and still try redirect with URL params.
+  }
+
+  const params = new URLSearchParams({
+    score: String(result.score),
+    total: String(result.total),
+    wrong: String(result.wrong),
+    percent: String(result.percent),
+    secondsSpent: String(result.secondsSpent),
+    auto: String(result.autoSubmitted),
+    finishedAt: result.finishedAt,
+  });
+
+  window.location.href = `${RESULT_PAGE}?${params.toString()}`;
 }
 
 // === Timer ===
@@ -169,12 +256,13 @@ function checkAnswers(auto = false) {
 
   const msg =
     score >= 8
-      ? "Strong. Now push it to full IELTS level with longer passages."
+      ? "Strong. Moving to results page."
       : score >= 5
-      ? "Decent, but you're leaking points. Fix weak question types."
-      : "This is not test-ready. Drill daily until you stop guessing.";
+      ? "Decent. Moving to results page."
+      : "Needs work. Moving to results page.";
 
   setStatus(`Checked. ${msg}`);
+  saveResultAndRedirect(score, auto);
 }
 
 // === Events ===
@@ -182,6 +270,8 @@ startBtn.addEventListener("click", startTimer);
 checkBtnTop.addEventListener("click", () => checkAnswers(false));
 checkBtnBottom.addEventListener("click", () => checkAnswers(false));
 resetBtn.addEventListener("click", resetAll);
+if (themeToggleBtn) themeToggleBtn.addEventListener("click", toggleTheme);
 
 // Initial render
+initTheme();
 renderTime();

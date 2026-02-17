@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IELTS Reading Result</title>
+    <link rel="stylesheet" href="./results.css" />
+  </head>
+  <body>
+    <div class="bg"></div>
+
+    <main class="resultsWrap">
+      <header class="topBar">
+        <div>
+          <p class="eyebrow">IELTS Reading Mock</p>
+          <h1>Result Report</h1>
+          <p class="sub">Your latest reading test performance</p>
+        </div>
+
+        <button
+          id="themeToggle"
+          class="themeToggle"
+          type="button"
+          aria-label="Switch to light mode"
+          aria-pressed="false"
+          title="Toggle dark and light mode"
+        >
+          <span class="themeIcon moon" aria-hidden="true">&#9790;</span>
+          <span class="themeIcon sun" aria-hidden="true">&#9728;</span>
+        </button>
+      </header>
+
+      <section class="card hero">
+        <div id="scoreRing" class="scoreRing" data-tone="low" style="--percent: 0">
+          <div class="scoreRingInner">
+            <div id="scoreValue" class="scoreValue">0/10</div>
+            <div id="percentValue" class="percentValue">0%</div>
+          </div>
+        </div>
+
+        <div class="heroText">
+          <h2 id="headline">No result found yet</h2>
+          <p id="resultMessage">Finish a test to see the complete report on this page.</p>
+
+          <div class="chips">
+            <span class="chip">Correct <b id="correctValue">0</b></span>
+            <span class="chip">Wrong <b id="wrongValue">0</b></span>
+            <span class="chip">Submission <b id="submissionType">Manual</b></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="statsGrid">
+        <article class="statCard">
+          <h3>Time Spent</h3>
+          <p id="timeSpent">00:00</p>
+        </article>
+
+        <article class="statCard">
+          <h3>Completed At</h3>
+          <p id="finishedAt">-</p>
+        </article>
+
+        <article class="statCard">
+          <h3>Score Rate</h3>
+          <p id="scoreRate">0%</p>
+        </article>
+      </section>
+
+      <section class="card actionCard">
+        <h3>Next Step</h3>
+        <p id="nextStep">Go back and run another timed reading set.</p>
+        <div class="actions">
+          <a class="btn primary" href="./index.html">Take Another Test</a>
+          <a class="btn ghost" href="./index.html#testForm">Back To Questions</a>
+        </div>
+      </section>
+    </main>
+
+    <script src="./results.js"></script>
+  </body>
+</html>
